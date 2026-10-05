@@ -22,7 +22,7 @@ builder.Services.AddSwaggerGen();//This line add
 
 builder.Services.AddAutoMapper(cfg => { },AppDomain.CurrentDomain.GetAssemblies());
 
-builder.Services.AddScoped<INationalParkRepository, INationalParkRepository>();
+builder.Services.AddScoped<INationalParkRepository, NationalParkRepository>();
 builder.Services.AddScoped<ITrailRepository, TrailRepository>();
 
 var app = builder.Build();
@@ -30,7 +30,10 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    //app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI();
+
 }
 
 app.UseHttpsRedirection();
