@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace NationalPark_API.Models
+namespace NationalPark_WebApplication.Models
 {
     public class Trail
     {
@@ -12,11 +11,11 @@ namespace NationalPark_API.Models
         public string Distance { get; set; }
         [Required]
         public string Elevation { get; set; }
-        public DateTime DateCreated { get; set; }
-        public enum DifficultyType  { Easy,Moderate,Difficult }
-        public DifficultyType Difficulty { get; set; }
+        public enum DIfficultyType  {Easy,Moderate,Difficult }
+        [Required]
+        public DIfficultyType DIfficulty { get; set; }
+        [Display(Name = "National Park")]
         public int NationalParkId { get; set; }
-        [ForeignKey("NationalParkId")]
         public NationalPark NationalPark { get; set; }
     }
 }
