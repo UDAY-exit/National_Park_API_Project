@@ -1,7 +1,19 @@
+using NationalPark_WebApplication.Repository;
+using NationalPark_WebApplication.Repository.IRepository;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+//Add services to the controller 
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<INationalParkRepository, NationalParkRepository>();
+builder.Services.AddScoped<ITrailRepository, TrailRepository>();
+
+builder.Services.AddHttpClient();
+
+// Add services to the container.
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+
+
 
 var app = builder.Build();
 

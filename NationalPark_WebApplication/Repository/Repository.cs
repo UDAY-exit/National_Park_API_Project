@@ -36,14 +36,30 @@ namespace NationalPark_WebApplication.Repository
                 return true;return false;
         }
 
-        public Task<IEnumerable<T>> GetAllAsync(string url)
+        public async Task<IEnumerable<T>> GetAllAsync(string url)
         {
-            throw new NotImplementedException();
+            var request = new HttpRequestMessage(HttpMethod.Get, url);
+            var client = _httpClientFactory.CreateClient();
+            HttpResponseMessage httpResponse = await client.SendAsync(request);
+            if(httpResponse.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                string jsonString = await httpResponse.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<IEnumerable<T>>(jsonString);
+            }
+            return null;
         }
 
-        public Task<T> GetAsync(string url, int id)
+        public async Task<T> GetAsync(string url, int id)
         {
-            throw new NotImplementedException();
+            var request = new HttpRequestMessage(HttpMethod.Get, url + "/" + id.ToString());
+            var client = _httpClientFactory.CreateClient();
+            HttpResponseMessage httpResponse = await client.SendAsync(request);
+            if(httpResponse.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                string jsonString = await httpResponse.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<T>(jsonString);
+            }
+            return null;
         }
 
         public async Task<bool> UpdateAsync(string url, T objToUpdate)
