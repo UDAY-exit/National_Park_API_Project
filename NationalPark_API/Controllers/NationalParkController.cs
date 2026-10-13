@@ -24,7 +24,8 @@ namespace NationalPark_API.Controllers
         [HttpGet]
         public IActionResult GetNationalParks()
         {
-            var nationalParkDtoList = _nationalParkRepository.GetNationalParks().Select(_mapper.Map<NationalParkDto>);
+            var nationalParkDtoList = _nationalParkRepository.GetNationalParks()
+                .Select(_mapper.Map<NationalParkDto>);
             return Ok(nationalParkDtoList);
         }
         [HttpGet("{nationalParkId:int}",Name ="GetNationalPark")]
@@ -65,7 +66,8 @@ namespace NationalPark_API.Controllers
             }
             return NoContent();//204
         }
-        [HttpDelete]
+
+        [HttpDelete("{nationalParkId:int}")]
         public IActionResult DeleteNationalPark(int nationalParkId)
         {
             if (!_nationalParkRepository.NationalParkExists(nationalParkId))

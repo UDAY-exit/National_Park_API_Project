@@ -17,9 +17,9 @@ function loadDataTable() {
                 "render": function (data) {
                     return `
                     <div class="text-center">
-                    <a href="/Admin/Category/Upsert/${data}" class="btn btn-info">
+                    <a href="Nationalpark/Upsert/${data}" class="btn btn-info">
                     <i class="fas fa-edit"></i></a>
-                    <a class="btn btn-danger" onclick=Delete("/Admin/Category/Delete/${data}")>
+                    <a class="btn btn-danger" onclick=Delete("NationalPark/Delete/${data}")>
                     <i class="fas fa-trash"></i></a>
                     </div>
                     `;
@@ -34,7 +34,7 @@ function Delete(url) {
         text: "Realy!!!",
         icon: "warning",
         buttons: true,
-        dangerModel: true
+        dangerMode: true
     }).then((willDelete) => {
         if (willDelete) {
             $.ajax({

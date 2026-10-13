@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using NationalPark_WebApplication.Models;
+using NationalPark_WebApplication.Repository.IRepository;
 using System.Diagnostics;
 
 namespace NationalPark_WebApplication.Controllers
 {
     public class HomeController : Controller
     {
+        
         public IActionResult Index()
         {
             return View();
