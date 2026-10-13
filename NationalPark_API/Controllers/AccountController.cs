@@ -1,0 +1,31 @@
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using NationalPark_API.Models;
+using NationalPark_API.Repository.IRepository;
+
+namespace NationalPark_API.Controllers
+{
+    [Route("api/user")]
+    [ApiController]
+    public class AccountController : Controller
+    {
+        private readonly IUserRepository _userRepository;
+        public AccountController(IUserRepository userRepository)
+        {
+            _userRepository = userRepository;
+        }
+        [HttpPost("register")]
+        public IActionResult Register([FromBody]User user)
+        {
+            if (ModelState.IsValid)
+            {
+                var isUniqueUser = _userRepository.IsUniqueUser(user.UserName);
+                if (!isUniqueUser) return BadRequest("User in use !!!");
+                var userInfo = _userRepository.Register(user.UserName,user.Password);
+                if (userInfo == null) return NotFound();
+                user = userInfo;
+            }
+            return Ok(user);
+        }
+    }
+}

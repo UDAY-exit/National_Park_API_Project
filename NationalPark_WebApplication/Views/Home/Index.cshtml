@@ -1,8 +1,130 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model NationalPark_WebApplication.Models.ViewModels.IndexVM
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<table id="productTable" class="display w-100">
+    <thead>
+        <tr>
+            <th>National Park Information</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var nationalPark in Model.NationalParksList)
+        {
+            <tr>
+                <td>
+                    <div class="container-fluid bg-light py-4">
+                        <div class="container">
+                            <div class="card border-0 shadow rounded-4 overflow-hidden mb-4">
+
+                                <!-- National Park Header -->
+                                <div class="card-header bg-success bg-opacity-10 p-4 border-bottom border-success">
+                                    <div class="row align-items-center">
+                                        <div class="col-12 col-md-6">
+                                            <h1 class="text-success fw-bold mb-2 mb-md-0">
+                                                @nationalPark.Name
+                                            </h1>
+                                        </div>
+
+                                        <div class="col-12 col-md-6 text-md-end">
+                                            <h3 class="text-dark fw-semibold mb-0">
+                                                <span class="text-success">State:</span>
+                                                @nationalPark.State
+                                            </h3>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- National Park Details -->
+                                <div class="card-body p-4 bg-white">
+                                    <div class="row g-4 align-items-start">
+
+                                        <!-- Trail Information -->
+                                        <div class="col-12 col-lg-8">
+                                            <div class="bg-light rounded-3 p-3 mb-4 border">
+                                                <h6 class="text-secondary fw-semibold mb-1">
+                                                    Established
+                                                </h6>
+
+                                                <h3 class="text-success fw-bold mb-0">
+                                                    @nationalPark.Established.Year
+                                                </h3>
+                                            </div>
+
+                                            <div class="table-responsive">
+                                                @{
+                                                    var trails = Model.TrailList
+                                                        .Where(t => t.NationalParkId == nationalPark.Id);
+                                                }
+
+                                                <table class="table table-hover table-striped align-middle mb-0">
+                                                    <thead class="table-success">
+                                                        <tr>
+                                                            <th class="py-3">Trail</th>
+                                                            <th class="py-3">Distance</th>
+                                                            <th class="py-3">Elevation Gain</th>
+                                                            <th class="py-3">Difficulty</th>
+                                                        </tr>
+                                                    </thead>
+
+                                                    <tbody>
+                                                        @foreach (var trail in trails)
+                                                        {
+                                                            <tr>
+                                                                <td class="fw-semibold text-dark">
+                                                                    @trail.Name
+                                                                </td>
+
+                                                                <td class="text-secondary">
+                                                                    @trail.Distance
+                                                                </td>
+
+                                                                <td class="text-secondary">
+                                                                    @trail.Elevation
+                                                                </td>
+
+                                                                <td>
+                                                                    <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3 py-2">
+                                                                        @trail.DIfficulty
+                                                                    </span>
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                        <!-- National Park Image -->
+                                        <div class="col-12 col-lg-4 text-center">
+                                            @if (nationalPark.Picture != null)
+                                            {
+                                                var base64 = Convert.ToBase64String(nationalPark.Picture);
+                                                var imgSrc = String.Format("data:image/jpg;base64,{0}", base64);
+
+                                                <img src="@imgSrc"
+                                                     class="img-fluid rounded-4 shadow-sm border p-1"
+                                                     width="100%"
+                                                     alt="@nationalPark.Name" />
+                                            }
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <!-- Footer -->
+                                <div class="card-footer bg-light text-secondary text-center py-3 border-0">
+                                    <small>National Park &amp; Trail Information</small>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script src="~/js/home.js"></script>
+}

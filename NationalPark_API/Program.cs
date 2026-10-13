@@ -24,6 +24,7 @@ builder.Services.AddAutoMapper(cfg => { },AppDomain.CurrentDomain.GetAssemblies(
 
 builder.Services.AddScoped<INationalParkRepository, NationalParkRepository>();
 builder.Services.AddScoped<ITrailRepository, TrailRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 var app = builder.Build();
 
