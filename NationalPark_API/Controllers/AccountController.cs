@@ -27,5 +27,12 @@ namespace NationalPark_API.Controllers
             }
             return Ok(user);
         }
+        [HttpPost("login")]
+        public IActionResult Login([FromBody]User user)
+        {
+            var userInDb = _userRepository.Authenticate(user.UserName, user.Password);
+            if (userInDb == null) return BadRequest("Wrong user/Password !!!");
+            return Ok(userInDb);
+        }
     }
 }

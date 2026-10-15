@@ -6,5 +6,7 @@
         public static string NationalParkApiPath = APIBaseUrl + "api/NationalPark";
         public static string TrailAPIPath = APIBaseUrl + "api/Trail";
 
+
+        public static string BookingAPIPath = "https://localhost:7105/api/Booking";
     }
 }

@@ -9,6 +9,8 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="10.0.12" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="Stripe.net" Version="53.0.0" />
+    <PackageReference Include="Twilio" Version="8.1.0" />
   </ItemGroup>
 
 </Project>

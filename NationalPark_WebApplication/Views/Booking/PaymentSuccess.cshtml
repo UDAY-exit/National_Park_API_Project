@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "Payment Successful";
+}
+
+<div class="container py-5">
+    <div class="card shadow mx-auto text-center p-5"
+         style="max-width: 600px; border-radius: 16px;">
+
+        <div class="text-success display-1">✓</div>
+        <h1 class="text-success">Payment Successful!</h1>
+
+        <p class="lead mt-3">
+            Your National Park booking has been confirmed.
+        </p>
+
+        <p class="text-muted">
+            Thank you for your booking. We look forward to your visit!
+        </p>
+
+        <a asp-controller="Home" asp-action="Index"
+           class="btn btn-success mt-3">
+            Back to Home
+        </a>
+    </div>
+</div>

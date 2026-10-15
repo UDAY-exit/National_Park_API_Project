@@ -1,0 +1,175 @@
+﻿@model NationalPark_WebApplication.Models.Booking
+
+<div class="container py-5">
+    <div class="card shadow-sm border-0 mx-auto" style="max-width: 650px;">
+
+        <div class="card-header bg-success text-white p-3">
+            <h3 class="mb-0">Book Your National Park Visit</h3>
+        </div>
+
+        <div class="card-body p-4">
+
+            <form asp-controller="Booking" asp-action="Create" method="post">
+                @Html.AntiForgeryToken()
+
+                <input type="hidden" asp-for="NationalParkId" />
+
+                <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+                <!-- Customer Name -->
+                <div class="mb-3">
+                    <label asp-for="CustomerName" class="form-label">
+                        Full Name
+                    </label>
+                    <input asp-for="CustomerName" class="form-control"
+                           placeholder="Enter your full name" />
+                    <span asp-validation-for="CustomerName"
+                          class="text-danger"></span>
+                </div>
+
+                <!-- Phone Number -->
+                <div class="mb-3">
+                    <label asp-for="PhoneNumber" class="form-label">
+                        Phone Number
+                    </label>
+                    <input asp-for="PhoneNumber" type="tel"
+                           class="form-control"
+                           placeholder="Enter your phone number" />
+                    <span asp-validation-for="PhoneNumber"
+                          class="text-danger"></span>
+                </div>
+
+                <!-- Address -->
+                <div class="mb-3">
+                    <label asp-for="Address" class="form-label">
+                        Address
+                    </label>
+                    <textarea asp-for="Address" class="form-control" rows="3"
+                              placeholder="Enter your full address"></textarea>
+                    <span asp-validation-for="Address"
+                          class="text-danger"></span>
+                </div>
+
+                <!-- Email -->
+                <div class="mb-3">
+                    <label asp-for="Email" class="form-label">Email</label>
+                    <input asp-for="Email" type="email" class="form-control"
+                           placeholder="Enter your email address" />
+                    <span asp-validation-for="Email"
+                          class="text-danger"></span>
+                </div>
+
+                <!-- Visit Date -->
+                <div class="mb-3">
+                    <label asp-for="BookingDate" class="form-label">
+                        Visit Date
+                    </label>
+                    <input asp-for="BookingDate" type="date"
+                           asp-format="{0:yyyy-MM-dd}"
+                           class="form-control" />
+                    <span asp-validation-for="BookingDate"
+                          class="text-danger"></span>
+                </div>
+
+                <!-- Adults and Children -->
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Adults" class="form-label">
+                            Adults (₹500 each)
+                        </label>
+                        <input asp-for="Adults" type="number"
+                               min="0" max="5" class="form-control" />
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Children" class="form-label">
+                            Children (₹250 each)
+                        </label>
+                        <input asp-for="Children" type="number"
+                               min="0" max="5" class="form-control" />
+                    </div>
+                </div>
+
+                <!-- Price Summary -->
+                <div class="card bg-light border-success mb-4">
+                    <div class="card-body">
+                        <h5 class="text-success mb-3">
+                            <i class="fa-solid fa-receipt me-2"></i>
+                            Booking Price Summary
+                        </h5>
+
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Adult tickets</span>
+                            <span id="adultTotal">₹500</span>
+                        </div>
+
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Child tickets</span>
+                            <span id="childTotal">₹0</span>
+                        </div>
+
+                        <hr />
+
+                        <div class="d-flex justify-content-between fw-bold fs-5">
+                            <span>Total Amount</span>
+                            <span id="grandTotal" class="text-success">
+                                ₹500
+                            </span>
+                        </div>
+
+                        <small class="text-muted d-block mt-2">
+                            Maximum 5 visitors per booking.
+                        </small>
+                    </div>
+                </div>
+
+                <!-- Submit -->
+                <button type="submit" class="btn btn-success w-100 py-2">
+                    <i class="fa-solid fa-calendar-check me-2"></i>
+                    Submit Booking
+                </button>
+
+                <a asp-controller="Home" asp-action="Index"
+                   class="btn btn-outline-secondary w-100 mt-2">
+                    Cancel
+                </a>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        const adultPrice = 500;
+        const childPrice = 250;
+
+        const adultsInput = document.getElementById("Adults");
+        const childrenInput = document.getElementById("Children");
+
+        function calculateTotal() {
+            const adults = Math.max(0, Number(adultsInput.value) || 0);
+            const children = Math.max(0, Number(childrenInput.value) || 0);
+
+            const adultAmount = adults * adultPrice;
+            const childAmount = children * childPrice;
+            const total = adultAmount + childAmount;
+
+            document.getElementById("adultTotal").textContent =
+                "₹" + adultAmount.toLocaleString("en-IN");
+
+            document.getElementById("childTotal").textContent =
+                "₹" + childAmount.toLocaleString("en-IN");
+
+            document.getElementById("grandTotal").textContent =
+                "₹" + total.toLocaleString("en-IN");
+        }
+
+        adultsInput.addEventListener("input", calculateTotal);
+        childrenInput.addEventListener("input", calculateTotal);
+
+        calculateTotal();
+    </script>
+}

@@ -1,20 +1,47 @@
-﻿using NationalPark_API.Data;
+﻿using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using NationalPark_API.Data;
 using NationalPark_API.Models;
 using NationalPark_API.Repository.IRepository;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace NationalPark_API.Repository
 {
     public class UserRepository : IUserRepository
     {
         private readonly ApplicationDbContext _context;
-        public UserRepository(ApplicationDbContext context)
+        private readonly AppSettings _appSettings;
+        public UserRepository(ApplicationDbContext context,IOptions<AppSettings>appSettings)
         {
             _context = context;
+            _appSettings = appSettings.Value;
         }
         public User Authenticate(string username, string password)
         {
             var UserInDb = _context.Users.FirstOrDefault(u => u.UserName == username && u.Password == password);
             if (UserInDb == null) return null;
+
+            // JWT Token
+
+            var tokenHandeler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+            var tokenDescriptor = new SecurityTokenDescriptor()
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim(ClaimTypes.Name,UserInDb.Id.ToString()),
+                    new Claim(ClaimTypes.Role,UserInDb.Role)
+                }),
+                Expires = DateTime.UtcNow.AddDays(7),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
+                SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandeler.CreateToken(tokenDescriptor);
+            UserInDb.Token = tokenHandeler.WriteToken(token);
+
+            ///**
 
 
             UserInDb.Password = "";

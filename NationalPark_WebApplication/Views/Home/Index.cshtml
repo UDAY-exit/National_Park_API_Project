@@ -87,7 +87,9 @@
                                                                         @trail.DIfficulty
                                                                     </span>
                                                                 </td>
+
                                                             </tr>
+                                                           
                                                         }
                                                     </tbody>
                                                 </table>
@@ -111,10 +113,27 @@
                                     </div>
                                 </div>
 
+                              
                                 <!-- Footer -->
-                                <div class="card-footer bg-light text-secondary text-center py-3 border-0">
-                                    <small>National Park &amp; Trail Information</small>
+                                <div class="card-footer bg-light py-3 border-0">
+                                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+                                        <small class="text-secondary">
+                                            <i class="fa-solid fa-tree text-success me-2"></i>
+                                            National Park &amp; Trail Information
+                                        </small>
+
+                                        <a asp-controller="Booking"
+                                           asp-action="Create"
+                                           asp-route-nationalParkId="@nationalPark.Id"
+                                           class="btn btn-success rounded-pill px-4 py-2 shadow-sm">
+                                            <i class="fa-solid fa-calendar-check me-2"></i>
+                                            Book Now
+                                        </a>
+
+                                    </div>
                                 </div>
+
 
                             </div>
                         </div>
